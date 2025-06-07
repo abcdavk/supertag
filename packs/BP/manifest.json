@@ -1,0 +1,40 @@
+{
+    "format_version": 2,
+    "header": {
+      "name": "Superkill",
+      "description": "",
+      "uuid": "44125772-436e-11f0-8760-0f82a207ffa9",
+      "version": [1, 0, 0],
+      "min_engine_version": [1, 21, 70]
+    },
+    "modules": [
+      {
+        "description": "Script resources",
+        "language": "javascript",
+        "type": "script",
+        "uuid": "3cd799e0-436e-11f0-a137-136ad347b7f3",
+        "version": [1, 0, 0],
+        "entry": "scripts/main.js"
+      },
+      {
+        "type": "data",
+        "uuid": "36ae8d62-436e-11f0-accb-1fc322000efb",
+        "version": [1, 0, 0]
+      }
+    ],
+    "dependencies": [
+      {
+        "uuid": "2d9310a4-436e-11f0-841f-0fbcd8741e09",
+        "version": [1, 0, 0]
+      },
+      {
+        "module_name": "@minecraft/server",
+        "version": "1.19.0"
+      },
+      {
+        "module_name": "@minecraft/server-ui",
+        "version": "1.3.0"
+      }
+    ]
+  }
+  

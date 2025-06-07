@@ -1,0 +1,24 @@
+{
+    "format_version": 2,
+    "header": {
+      "name": "Superkill",
+      "description": "",
+      "uuid": "2d9310a4-436e-11f0-841f-0fbcd8741e09",
+      "version": [1, 0, 0],
+      "min_engine_version": [1, 21, 70]
+    },
+    "modules": [
+      {
+        "type": "resources",
+        "uuid": "4bf01ed4-436e-11f0-972c-93fa8e341741",
+        "version": [1, 0, 0]
+      }
+    ],
+    "dependencies": [
+      {
+        "uuid": "44125772-436e-11f0-8760-0f82a207ffa9",
+        "version": [1, 0, 0]
+      }
+    ]
+  }
+  
