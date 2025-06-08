@@ -10,4 +10,8 @@ export class PowerManager {
       trigger.register(power);
     }
   }
+  
+  static getPower(name: string): Power | undefined {
+    return this.powers.find(power => power.name === name);
+  }
 }

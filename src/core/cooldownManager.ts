@@ -1,6 +1,7 @@
 import { system, world } from "@minecraft/server";
 import { CooldownType, SupertagCooldownType } from "./cooldownTypes";
 import { generateRandomID } from "./utils";
+import { PowerManager } from "./powerManager";
 
 system.runInterval(() => {
   const cooldownManager = new CooldownManager();
@@ -10,12 +11,32 @@ system.runInterval(() => {
     const updatedSupertags = [];
 
     for (const supertag of playerData.supertags) {
+      const hide = supertag.hide ?? false;
       supertag.cooldown -= 1;
+
       if (supertag.cooldown >= 0) {
         updatedSupertags.push(supertag);
-        world.sendMessage(`${playerData.nametag} - ${supertag.id} [${supertag.cooldown}]`);
-      } else {
-        world.sendMessage(`${playerData.nametag} - ${supertag.id} ready`);
+
+        if (!hide) {
+          try {
+            const power = PowerManager.getPower(supertag.id);
+            const fullCooldown = power?.define_var?.cooldown * 20;
+
+            if (typeof fullCooldown === "number" && fullCooldown > 0) {
+              const percentage = supertag.cooldown / fullCooldown;
+
+              const animationValue = Math.floor(percentage * 99);
+              const displayValue = animationValue.toString().padStart(3, "0");
+
+              const player = world.getPlayers({ name: playerData.nametag })[0];
+              if (player) {
+                player.onScreenDisplay.setTitle(`CD:${displayValue};ST:${supertag.id}`);
+              }
+            }
+          } catch (error) {
+            console.error(`Failed to display cooldown animation of ${supertag.id}. ${error}`);
+          }
+        }
       }
     }
 
@@ -23,9 +44,7 @@ system.runInterval(() => {
   }
 
   cooldownManager['saveWorldCooldownData'](allData);
-}, 20);
-
-
+});
 
 export class CooldownManager {
   private cooldownProperty = "supertag:cooldown";
@@ -60,6 +79,13 @@ export class CooldownManager {
   getByPlayerName(playerName: string): CooldownType | undefined {
     const cooldownData = this.getWorldCooldownData().find(data => data.nametag === playerName);
     return cooldownData;
+  }
+
+  getSupertagCooldown(playerName: string, supertagId: string): SupertagCooldownType | undefined {
+    const cooldownData = this.getByPlayerName(playerName);
+    const supertag = cooldownData?.supertags.filter(supertag => supertag.id === supertagId);
+
+    return supertag?.[0];
   }
 
   addSupertag(playerName: string, newSupertag: SupertagCooldownType): boolean {

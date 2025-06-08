@@ -7,4 +7,5 @@ export type CooldownType = {
 export type SupertagCooldownType = {
   id: string;
   cooldown: number;
+  hide?: boolean
 }

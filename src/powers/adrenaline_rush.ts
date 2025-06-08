@@ -16,8 +16,10 @@ const adrenaline_rush: Power = {
   },
   activate(player) {
     player.sendMessage(`§aAdrenaline rush flowing as your blood is dying!`);
+
+    player.runCommandAsync("camerashake add @s 0.1 20");
     for (const effect of effectList) {
-      player.addEffect(effect.type, effect.duration * 20, { amplifier: effect.amplifier })
+      player.addEffect(effect.type, effect.duration * 20, { amplifier: effect.amplifier });
     }
     system.runTimeout(() => {
       player.addEffect("nausea", 10 * 20);

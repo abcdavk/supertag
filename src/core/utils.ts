@@ -1,13 +1,13 @@
 import { Player } from "@minecraft/server";
 import { Power } from "./powerTypes";
 
+export const infinity = 999999 * 20;
+
 export function checkPower(player: Player, power: Power): boolean {
   const allTags = player.getTags();
-  const superTag = allTags.find(tag => tag.startsWith("supertag:"));
-  if (superTag) {
-    return superTag.split(":")[1] === power.name;
-  } else return false;
+  return allTags.some(tag => tag === `supertag:${power.name}`);
 }
+
 
 export function generateRandomID(length: number = 8): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
