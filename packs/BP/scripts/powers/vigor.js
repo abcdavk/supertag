@@ -1,17 +1,15 @@
-import { world } from "@minecraft/server";
 import { PowerManager } from "../core/powerManager";
 import { onSpawnTrigger } from "../triggers/onSpawn";
-import { onItemUseTrigger } from "../triggers/onItemUse";
 const vigor = {
     name: "vigor",
     define_var: {
-        cooldown: 10
+        cooldown: 30
     },
     activate(player) {
-        world.sendMessage(`§b${player.nameTag} lives life!`);
+        player.addEffect("haste", 25 * 20, { amplifier: 0, showParticles: false });
+        player.addEffect("strength", 25 * 20, { amplifier: 0, showParticles: false });
     }
 };
 PowerManager.registerPower(vigor, [
-    onSpawnTrigger,
-    onItemUseTrigger
+    onSpawnTrigger
 ]);
