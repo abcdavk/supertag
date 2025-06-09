@@ -1,33 +1,51 @@
 import { system, world } from "@minecraft/server";
-import { generateRandomID } from "./utils";
+import { formatID, generateRandomID } from "./utils";
 import { PowerManager } from "./powerManager";
 system.runInterval(() => {
     const cooldownManager = new CooldownManager();
     const allData = cooldownManager.getWorldCooldownData();
     for (const playerData of allData) {
         const updatedSupertags = [];
-        for (const supertag of playerData.supertags) {
+        for (let i = 0; i < playerData.supertags.length; i++) {
+            const supertag = playerData.supertags[i];
             const hide = supertag.hide ?? false;
             supertag.cooldown -= 1;
-            if (supertag.cooldown >= 0) {
-                updatedSupertags.push(supertag);
-                if (!hide) {
-                    try {
-                        const power = PowerManager.getPower(supertag.id);
-                        const fullCooldown = power?.define_var?.cooldown * 20;
-                        if (typeof fullCooldown === "number" && fullCooldown > 0) {
-                            const percentage = supertag.cooldown / fullCooldown;
-                            const animationValue = Math.floor(percentage * 99);
-                            const displayValue = animationValue.toString().padStart(3, "0");
-                            const player = world.getPlayers({ name: playerData.nametag })[0];
-                            if (player) {
-                                player.onScreenDisplay.setTitle(`CD:${displayValue};ST:${supertag.id}`);
+            const cooldownArrayLength = playerData.supertags.filter(s => s.hide === false || s.hide === undefined);
+            // console.warn(JSON.stringify(cooldownArrayLength));
+            const player = world.getPlayers({ name: playerData.nametag })[0];
+            if (cooldownArrayLength.length > 0) {
+                if (supertag.cooldown >= 0) {
+                    updatedSupertags.push(supertag);
+                    if (!hide) {
+                        try {
+                            const firstIndexSupertag = playerData.supertags[0];
+                            const power = PowerManager.getPower(firstIndexSupertag.id);
+                            const fullCooldown = power?.define_var?.cooldown * 20;
+                            if (typeof fullCooldown === "number" && fullCooldown > 0) {
+                                const percentage = firstIndexSupertag.cooldown / fullCooldown;
+                                const animationValue = Math.floor(percentage * 99);
+                                const displayValue = animationValue.toString().padStart(3, "0");
+                                if (player) {
+                                    player.onScreenDisplay.setTitle(`CD:${displayValue};ST:${firstIndexSupertag.id}`);
+                                    player.removeTag("supertag:none");
+                                }
                             }
                         }
+                        catch (error) {
+                            console.error(`Failed to display cooldown animation of ${supertag.id}. ${error}`);
+                        }
                     }
-                    catch (error) {
-                        console.error(`Failed to display cooldown animation of ${supertag.id}. ${error}`);
+                }
+                else {
+                    if (!hide) {
+                        player.sendMessage(`§b${formatID(supertag.id)}§r is ready to use!`);
                     }
+                }
+            }
+            else {
+                if (player && !player.hasTag("supertag:none")) {
+                    player.addTag("supertag:none");
+                    player.onScreenDisplay.setTitle(`CD:000;ST:none`);
                 }
             }
         }

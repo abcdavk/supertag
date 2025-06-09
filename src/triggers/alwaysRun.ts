@@ -13,11 +13,10 @@ export const alwaysRunTrigger: PowerTrigger = {
         world.getPlayers().forEach(player => {
           if (checkPower(player, power)) {
             const onCooldown = cooldownManager.addSupertag(player.nameTag, { id: power.name, cooldown: cooldownCount * 20, hide: true });
-            if (onCooldown) power.activate(player);
+            if (onCooldown) power.activate?.(player);
           }
         });
       });
-      
     } catch (error) {
       console.error(`Failed to register ${power.name}. ${error}`);
     }

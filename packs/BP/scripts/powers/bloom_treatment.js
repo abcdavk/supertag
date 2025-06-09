@@ -18,8 +18,12 @@ const bloom_treatment = {
             if (!equip || !mainHand)
                 return;
             player.addEffect("regeneration", duration * 20, { amplifier: amplifier });
-            mainHand.amount--;
-            equip.setEquipment(EquipmentSlot.Mainhand, mainHand);
+            if (mainHand.amount - 1 > 0) {
+                mainHand.amount--;
+                equip.setEquipment(EquipmentSlot.Mainhand, mainHand);
+            }
+            else
+                equip.setEquipment(EquipmentSlot.Mainhand, undefined);
         });
     }
 };

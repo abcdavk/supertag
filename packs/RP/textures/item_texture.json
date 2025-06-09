@@ -2,8 +2,26 @@
   "resource_pack_name": "vanilla",
   "texture_name": "atlas.items",
   "texture_data": {
-    "social": {
-      "textures": "textures/items/social"
+    "blood_shard": {
+      "textures": "textures/items/blood_shard"
+    },
+    "gray_blood_shard": {
+      "textures": "textures/items/gray_blood_shard"
+    },
+    "blood_sword": {
+      "textures": "textures/items/blood_sword"
+    },
+    "blood_scythe": {
+      "textures": "textures/items/blood_scythe"
+    },
+    "blood_shuriken": {
+      "textures": "textures/items/blood_shuriken"
+    },
+    "escape_mark": {
+      "textures": "textures/items/escape_mark"
+    },
+    "active_escape_mark": {
+      "textures": "textures/items/active_escape_mark"
     }
   }
 }

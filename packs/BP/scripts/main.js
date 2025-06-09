@@ -1,6 +1,7 @@
 import { world } from "@minecraft/server";
-import "./powers/main";
 import { CooldownManager } from "./core/cooldownManager";
+import "./powers/main";
+import "./fixItems";
 world.afterEvents.worldInitialize.subscribe(() => {
     if (!world.getDynamicProperty("supertag:cooldown")) {
         console.log(`Initialize Supertag`);

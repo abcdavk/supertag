@@ -7,13 +7,20 @@ export const onItemUseTrigger: PowerTrigger = {
   name: "onItemUse",
   register(power) {
     try {
+      const itemIds: string[] = power.define_var?.itemIds;
+
+      if (!Array.isArray(itemIds) || !itemIds.every(id => typeof id === "string")) {
+        throw new Error(`Power "${power.name}" is missing required "itemIds" (string[]) in "define_var".`);
+      }
+
+
       const cooldownManager = new CooldownManager();
       const cooldownCount = power.define_var?.cooldown ?? 0;
-      const itemIds: string[] = power.define_var?.itemIds;
+      const hideCooldownInfo = power.define_var?.hideCooldownInfo ?? false;
       const cancelUse = power.define_var?.cancelUse ?? false;
       if (cancelUse) {
         world.beforeEvents.itemUseOn.subscribe((event) => {
-          const { itemStack, source: player } = event;
+          const { itemStack, source: player, block } = event;
 
           if (
             checkPower(player, power) &&
@@ -22,10 +29,15 @@ export const onItemUseTrigger: PowerTrigger = {
             const onCooldown = cooldownManager.addSupertag(player.nameTag, {
               id: power.name,
               cooldown: cooldownCount * 20,
+              hide: hideCooldownInfo
             });
 
             if (onCooldown) {
-              power.activate(player);
+              if (typeof power.itemUse === "function") {
+                power.itemUse(player, { trigger: this.name, data: [ itemStack, block ] });
+              } else {
+                power.activate?.(player);
+              }
               event.cancel = true;
             }
           }
@@ -41,10 +53,15 @@ export const onItemUseTrigger: PowerTrigger = {
             const onCooldown = cooldownManager.addSupertag(player.nameTag, {
               id: power.name,
               cooldown: cooldownCount * 20,
+              hide: hideCooldownInfo
             });
 
             if (onCooldown) {
-              power.activate(player);
+              if (typeof power.itemUse === "function") {
+                power.itemUse(player, { trigger: this.name, data: [ itemStack ] });
+              } else {
+                power.activate?.(player);
+              }
             }
           }
         });

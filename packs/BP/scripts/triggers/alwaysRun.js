@@ -12,7 +12,7 @@ export const alwaysRunTrigger = {
                     if (checkPower(player, power)) {
                         const onCooldown = cooldownManager.addSupertag(player.nameTag, { id: power.name, cooldown: cooldownCount * 20, hide: true });
                         if (onCooldown)
-                            power.activate(player);
+                            power.activate?.(player);
                     }
                 });
             });

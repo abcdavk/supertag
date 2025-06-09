@@ -18,7 +18,7 @@ export const onLowHealthTrigger = {
                     health.currentValue <= minHealth) {
                     const onCooldown = cooldownManager.addSupertag(player.nameTag, { id: power.name, cooldown: cooldownCount * 20 });
                     if (onCooldown)
-                        power.activate(player);
+                        power.activate?.(player);
                 }
             });
         }

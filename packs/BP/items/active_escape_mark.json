@@ -1,0 +1,25 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:item": {
+    "description": {
+      "identifier": "supertag:active_escape_mark",
+      "menu_category": {
+        "group": "itemGroup.name.shard",
+        "category": "equipment",
+        "is_hidden_in_commands": false
+      }
+    },
+    "components": {
+      "minecraft:max_stack_size": 1,
+      "minecraft:hand_equipped": false,
+      "minecraft:icon": {
+        "textures": {
+          "default": "active_escape_mark"
+        }
+      },
+      "minecraft:display_name": {
+        "value": "Active Escape Mark"
+      }
+    }
+  }
+}

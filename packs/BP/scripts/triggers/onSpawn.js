@@ -9,7 +9,7 @@ export const onSpawnTrigger = {
             world.afterEvents.playerSpawn.subscribe(({ player }) => {
                 const onCooldown = cooldownManager.addSupertag(player.nameTag, { id: power.name, cooldown: cooldownCount * 20 });
                 if (onCooldown)
-                    power.activate(player);
+                    power.activate?.(player);
             });
         }
         catch (error) {

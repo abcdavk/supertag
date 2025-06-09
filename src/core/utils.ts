@@ -1,4 +1,4 @@
-import { Player } from "@minecraft/server";
+import { EnchantmentType, Player } from "@minecraft/server";
 import { Power } from "./powerTypes";
 
 export const infinity = 999999 * 20;
@@ -7,7 +7,6 @@ export function checkPower(player: Player, power: Power): boolean {
   const allTags = player.getTags();
   return allTags.some(tag => tag === `supertag:${power.name}`);
 }
-
 
 export function generateRandomID(length: number = 8): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -30,4 +29,51 @@ export function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+export function formatID(itemtype: string): string {
+  const rawName = itemtype.split(":")[1] || itemtype;
+
+  return rawName
+    .split("_")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+
+/**
+ * Damages a players held item taking into account unbreaking
+ * and destroying the item if it has no durability left.
+ *
+ * @param player
+ */
+export function damagePlayersHeldItem(player: Player) {
+  const inventoryComponent = player.getComponent("minecraft:inventory");
+  if (!inventoryComponent || !inventoryComponent.isValid()) return;
+  const container = inventoryComponent.container;
+  if (!container || !container.isValid()) return;
+  const heldItem = container.getItem(player.selectedSlotIndex);
+  if (!heldItem) return;
+  const durabilityComponent = heldItem.getComponent("durability");
+  if (!durabilityComponent || !durabilityComponent.isValid()) return;
+  // Item can be damaged
+
+  const enchantableComponent = heldItem.getComponent("enchantable");
+  if (enchantableComponent && enchantableComponent.isValid()) {
+    const unbreakingEnchantment = enchantableComponent.getEnchantment(
+      new EnchantmentType("unbreaking")
+    );
+    if (unbreakingEnchantment) {
+      if (Math.random() < 1 / (unbreakingEnchantment.level + 1)) return; // lucky, no damage
+    }
+  }
+
+  durabilityComponent.damage += 1;
+  if (durabilityComponent.damage >= durabilityComponent.maxDurability) {
+    container.setItem(player.selectedSlotIndex, undefined);
+    player.playSound("random.break");
+  } else {
+    container.setItem(player.selectedSlotIndex, heldItem);
+  }
 }
