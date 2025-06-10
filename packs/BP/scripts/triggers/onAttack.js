@@ -4,16 +4,16 @@ export const onAttackTrigger = {
     name: "onAttack",
     register(power) {
         try {
-            if (typeof power.update !== "function") {
-                throw (`Power "${power.name}" is missing required "update" function.`);
+            if (typeof power.onAttack !== "function") {
+                throw (`Power "${power.name}" is missing required "onAttack" function.`);
             }
-            world.afterEvents.entityDie.subscribe((event) => {
-                const player = event.damageSource.damagingEntity;
-                const target = event.deadEntity;
+            world.afterEvents.entityHitEntity.subscribe((event) => {
+                const player = event.damagingEntity;
+                const target = event.hitEntity;
                 if (checkPower(player, power) &&
                     player &&
                     player.typeId === "minecraft:player") {
-                    power.update?.(player, { trigger: this.name, data: [target] });
+                    power.onAttack?.(player, target);
                 }
             });
         }

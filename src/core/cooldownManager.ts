@@ -17,7 +17,9 @@ system.runInterval(() => {
       const cooldownArrayLength = playerData.supertags.filter(s => s.hide === false || s.hide === undefined);
 
       // console.warn(JSON.stringify(cooldownArrayLength));
-      const player = world.getPlayers({ name: playerData.nametag })[0];
+      const players = world.getPlayers({ name: playerData.nametag });
+      if (players.length === 0) return;
+      const player = players[0];
       if (cooldownArrayLength.length > 0) {
         if (supertag.cooldown >= 0) {
           updatedSupertags.push(supertag);

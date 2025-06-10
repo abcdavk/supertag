@@ -24,8 +24,8 @@ export const onItemUseTrigger = {
                             hide: hideCooldownInfo
                         });
                         if (onCooldown) {
-                            if (typeof power.itemUse === "function") {
-                                power.itemUse(player, { trigger: this.name, data: [itemStack, block] });
+                            if (typeof power.itemUseOn === "function") {
+                                power.itemUseOn(player, itemStack, block);
                             }
                             else {
                                 power.activate?.(player);
@@ -47,7 +47,7 @@ export const onItemUseTrigger = {
                         });
                         if (onCooldown) {
                             if (typeof power.itemUse === "function") {
-                                power.itemUse(player, { trigger: this.name, data: [itemStack] });
+                                power.itemUse(player, itemStack);
                             }
                             else {
                                 power.activate?.(player);

@@ -8,7 +8,29 @@ const bloom_treatment: Power = {
   name: "bloom_treatment",
   define_var: {
     cooldown: 20,
-    itemIds: ["minecraft:dandelion", "minecraft:poppy", "minecraft:blue_orchid"],
+    itemIds: [ 
+      "minecraft:red_tulip",
+      "minecraft:allium",
+      "minecraft:orange_tulip",
+      "minecraft:azure_bluet",
+      "minecraft:blue_orchid",
+      "minecraft:allium",
+      "minecraft:blue_orchid",
+      "minecraft:dandelion",
+      "minecraft:poppy",
+      "minecraft:oxeye_daisy",
+      "minecraft:pink_tulip",
+      "minecraft:white_tulip",
+      "minecraft:rose_bush",
+      "minecraft:lilac",
+      "minecraft:sunflower",
+      "minecraft:red_mushroom",
+      "minecraft:brown_mushroom",
+      "minecraft:spore_blossom",
+      "minecraft:lily_of_the_valley",
+      "minecraft:cornflower",
+      "minecraft:peony"
+    ],
     cancelUse: true
   },
   activate(player) {

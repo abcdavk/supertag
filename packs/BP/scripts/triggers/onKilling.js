@@ -4,8 +4,8 @@ export const onKillingTrigger = {
     name: "onKilling",
     register(power) {
         try {
-            if (typeof power.update !== "function") {
-                throw (`Power "${power.name}" is missing required "update" function.`);
+            if (typeof power.onKilling !== "function") {
+                throw (`Power "${power.name}" is missing required "onKilling" function.`);
             }
             world.afterEvents.entityDie.subscribe((event) => {
                 const player = event.damageSource.damagingEntity;
@@ -13,7 +13,7 @@ export const onKillingTrigger = {
                 if (checkPower(player, power) &&
                     player &&
                     player.typeId === "minecraft:player") {
-                    power.update?.(player, { trigger: this.name, data: [target] });
+                    power.onKilling?.(player, target);
                 }
             });
         }
