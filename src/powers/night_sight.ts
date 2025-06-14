@@ -9,9 +9,23 @@ const night_sight: Power = {
   activate(player) {
     const timeOfDay = world.getTimeOfDay();
     if (timeOfDay > 12000 && timeOfDay < 23000) {
-      player.addEffect("night_vision", infinity, { showParticles: false });
+      if (!player.hasTag("supertag-once:night_sight")) {
+        const viewDir = player.getViewDirection();
+        const loc = player.location;
+        player.dimension.spawnParticle("supertag:night_eye", {
+          x: loc.x + viewDir.x * 1.2,
+          y: loc.y + viewDir.y + 2,
+          z: loc.z + viewDir.z * 1.2
+        })
+
+        player.addEffect("night_vision", infinity, { showParticles: false });
+        player.addTag("supertag-once:night_sight");
+      }
     } else {
-      player.removeEffect("night_vision");
+      if (player.hasTag("supertag-once:night_sight")) {
+        player.removeTag("supertag-once:night_sight");
+        player.removeEffect("night_vision");
+      }
     }
   }
 };

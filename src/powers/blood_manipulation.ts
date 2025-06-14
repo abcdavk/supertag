@@ -88,14 +88,14 @@ const blood_manipulation: Power = {
       "supertag:blood_sword",
       "supertag:blood_scythe"
     ];
-    console.warn("test")
     if (!equip || !mainHand) return;
     if (!bloodWeapons.includes(mainHand.typeId)) return;
     const targetLoc = target.location as Vector3;
+    const viewDir = player.getViewDirection();
     player.dimension.spawnParticle("supertag:blood_spray", {
-      x: targetLoc.x,
+      x: targetLoc.x - viewDir.x,
       y: targetLoc.y + 1,
-      z: targetLoc.z
+      z: targetLoc.z - viewDir.z
     });
 
     const bloodDur = mainHand.getComponent(ItemComponentTypes.Durability);

@@ -1,11 +1,14 @@
 import { EnchantmentType, Player } from "@minecraft/server";
 import { Power } from "./powerTypes";
 
-export const infinity = 999999 * 20;
+export const infinity = 20000000;
 
 export function checkPower(player: Player, power: Power): boolean {
-  const allTags = player.getTags();
-  return allTags.some(tag => tag === `supertag:${power.name}`);
+  if (player && player.typeId === "minecraft:player") {
+    const allTags = player.getTags();
+    return allTags.some(tag => tag === `supertag:${power.name}`);
+  }
+  return false;
 }
 
 export function generateRandomID(length: number = 8): string {
