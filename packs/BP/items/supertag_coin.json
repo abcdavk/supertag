@@ -2,9 +2,10 @@
   "format_version": "1.20.80",
   "minecraft:item": {
     "description": {
-      "identifier": "supertag:escape_mark",
+      "identifier": "supertag:coin",
       "menu_category": {
-        "category": "none",
+        "group": "itemGroup.name.coin",
+        "category": "equipment",
         "is_hidden_in_commands": false
       }
     },
@@ -13,11 +14,11 @@
       "minecraft:hand_equipped": false,
       "minecraft:icon": {
         "textures": {
-          "default": "escape_mark"
+          "default": "supertag_coin"
         }
       },
       "minecraft:display_name": {
-        "value": "Escape Mark"
+        "value": "Supertag Coin"
       }
     }
   }

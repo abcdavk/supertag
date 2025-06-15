@@ -22,6 +22,9 @@
     },
     "active_escape_mark": {
       "textures": "textures/items/active_escape_mark"
+    },
+    "supertag_coin": {
+      "textures": "textures/items/supertag_coin"
     }
   }
 }

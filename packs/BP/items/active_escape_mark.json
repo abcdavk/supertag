@@ -4,8 +4,7 @@
     "description": {
       "identifier": "supertag:active_escape_mark",
       "menu_category": {
-        "group": "itemGroup.name.shard",
-        "category": "equipment",
+        "category": "none",
         "is_hidden_in_commands": false
       }
     },
