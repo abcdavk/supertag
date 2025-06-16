@@ -12,10 +12,13 @@ const coin_flipper: Power = {
   activate(player) {
     system.run(() => {
       const randomFlip = Math.floor(Math.random() * 2);
+      const dimension = player.dimension;
       if (randomFlip === 0) {
-        console.warn("Luck side")
+        // Luck side | 777
+        dimension.spawnParticle("supertag:coin_flip_luck", player.location);
       } else {
-        console.warn("Bad Luck side")
+        // Bad luck side | Crow
+        dimension.spawnParticle("supertag:coin_flip_bad_luck", player.location);
       }
     });
   },
@@ -23,4 +26,4 @@ const coin_flipper: Power = {
 
 PowerManager.registerPower(coin_flipper, [
   onItemUseTrigger
-]); 
+]);
