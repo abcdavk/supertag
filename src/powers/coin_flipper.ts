@@ -16,9 +16,11 @@ const coin_flipper: Power = {
       if (randomFlip === 0) {
         // Luck side | 777
         dimension.spawnParticle("supertag:coin_flip_luck", player.location);
+        player.addEffect("regeneration", 5 * 20, { amplifier: 255, showParticles: false });
       } else {
         // Bad luck side | Crow
         dimension.spawnParticle("supertag:coin_flip_bad_luck", player.location);
+        player.addEffect("wither", 10 * 20);
       }
     });
   },
